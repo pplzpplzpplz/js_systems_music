@@ -15,15 +15,15 @@ function startIt() {
     sourceNode.connect(pannerNode);
     pannerNode.connect(audioContext.destination);
 
-    sourceNode.start(0, 2.98, 640);  // (when to start playing, offset at which to start playing the buffer, duration)
+    sourceNode.start(0, 2.98, 640);  
   }
 
   fetch('mydsn.mp3') 
-    .then(response => response.arrayBuffer()) // here we choose an ArrayBuffer object as the response object
-    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) // turn the mp3 arrayBuffer into a decoded AudioBuffer
+    .then(response => response.arrayBuffer()) 
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
     .then(audioBuffer => {
       startLoop(audioBuffer, -.5, .8);
       startLoop(audioBuffer, .5, .805);
     })
-    .catch(error => console.error(error)); // .catch is the rejection handler, only if there's an error during above process
+    .catch(error => console.error(error));
 }
