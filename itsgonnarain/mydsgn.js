@@ -1,5 +1,6 @@
+let audioContext = new AudioContext();
+
 function startIt() {
-  let audioContext = new AudioContext();
   audioContext.resume();
 
   function startLoop(audioBuffer, pan = 0, rate = 1) {
@@ -27,4 +28,8 @@ function startIt() {
       startLoop(audioBuffer, 1, .9);
     })
     .catch(error => console.error(error));
+}
+
+function pauseIt() {
+  audioContext.suspend();
 }

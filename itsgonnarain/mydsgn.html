@@ -4,17 +4,26 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- needed for mq to work -->
-  <title>It's Gonna Rain</title>
+  <title>Mydsgn</title>
 
   <style>
     button {
       padding: 20px 40px;
+      width: 10rem;
       margin: 20px auto;
       font-size: 1.5rem;
       color: white;
       border: 2px dotted white;
       display: block;
       background-color: rgb(126, 193, 170);
+    }
+
+    button:hover {
+      background-color: rgb(123, 189, 166);
+    }
+
+    button:active {
+      background-color: hsl(159, 35%, 35%);
     }
 
     @media screen and (max-width: 600px) {
@@ -29,7 +38,7 @@
 
 <body>
   <button onclick="startIt()">play</button>
-  <button onclick="location.reload()">stop</button>
+  <button onclick="pauseIt()">pause</button>
   <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
   <script src="mydsgn.js"></script>
