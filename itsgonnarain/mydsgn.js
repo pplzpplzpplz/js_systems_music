@@ -1,5 +1,6 @@
 function startIt() {
   let audioContext = new AudioContext();
+  audioContext.resume();
 
   function startLoop(audioBuffer, pan = 0, rate = 1) {
     let sourceNode = audioContext.createBufferSource();
@@ -14,7 +15,7 @@ function startIt() {
 
     sourceNode.connect(pannerNode);
     pannerNode.connect(audioContext.destination);
-
+    
     sourceNode.start(0, 2.98, 640);  
   }
 
@@ -22,8 +23,8 @@ function startIt() {
     .then(response => response.arrayBuffer()) 
     .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
     .then(audioBuffer => {
-      startLoop(audioBuffer, -.5, .8);
-      startLoop(audioBuffer, .5, .805);
+      startLoop(audioBuffer, -1, .8);
+      startLoop(audioBuffer, 1, .9);
     })
     .catch(error => console.error(error));
 }
