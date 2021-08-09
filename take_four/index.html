@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- needed for mq to work -->
+  <title>DIFFERENT EVERY TIME</title>
+
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+
+
+<body>
+  <div class="container"></div>
+    <h1>DIFFERENT EVERY TIME</h1>
+
+    <div class="graph">
+      <p>A four track collaboration that never plays the same way twice and loops endlessly.</p>
+    </div>
+
+    <h1>001</h1>
+
+    <div class="buttonwrapper">
+      <button onclick="startIt()">play</button>
+      <button onclick="pauseIt()">pause</button>
+      <button onclick="stopIt()">stop</button>
+    </div>
+
+    <div class="columncontainer">
+      <div class="column">
+        <div class="bar b1">
+          <div class="position1"></div>
+        </div>
+        <h2>Gob Bluth</h2>
+        <p class="notes">
+          Sequential Circuits Six-Trak, Plantwave
+        </p>
+      </div>
+      <div class="column">
+        <div class="bar b2">
+          <div class="position2"></div>
+        </div>
+        <h2>Moses Schrute</h2>
+        <p class="notes">
+          Found sounds, sampled piano, Korg&nbsp;Polysix
+        </p>
+      </div>
+      <div class="column">
+        <div class="bar b3">
+          <div class="position3"></div>
+        </div>
+        <h2>Kenneth Parcell</h2>
+        <p class="notes">
+          Voice, ambient sound, acoustic&nbsp;guitar
+        </p>
+      </div>
+      <div class="column">
+        <div class="bar b4">
+          <div class="position4"></div>
+        </div>
+        <h2>Sterling Archer</h2>
+        <p class="notes">
+          Vocoder, saxophone, bass&nbsp;guitar
+        </p>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <script src="https://cdn.rawgit.com/mohayonao/web-audio-api-shim/master/build/web-audio-api-shim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.min.js"></script>
+  <script src="takefour_refactor.js"></script>
+</body>
+
+</html>
