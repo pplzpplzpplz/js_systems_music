@@ -1,152 +1,111 @@
+// PLAY / PAUSE BUTTON
+const playpauseButton = document.querySelector('.playpause');
+playpauseButton.addEventListener('click', (e)=>{
+  startIt();
+  e.target.classList.toggle('pause');
+  if (!e.target.classList.contains('pause')) {
+    pauseIt();
+  }
+})
+
+// count how many times the playpause button is clicked
+let counter = 0;
+playpauseButton.addEventListener('click', (e)=>{
+  counter++;
+});
+
+
+// STOP BUTTON 
+const stopButton = document.querySelector('.stop');
+stopButton.addEventListener('click', stopIt);
+
+
+// AUDIO STUFF 
 let audioContext = new AudioContext();
+
 
 function startIt() {
   audioContext.resume();
 
-// AUDIO 1
-  function startLoop1(audioBuffer, pan = 0, rate = 1) {
-    let sourceNode = audioContext.createBufferSource();
-    let pannerNode = audioContext.createStereoPanner();
-    let gainNode = audioContext.createGain();
-    
-    let randomStartPosition = Math.floor(Math.random() * 57.6);
-    let offsetAmount = randomStartPosition;  
-    console.log(`Audio 1 offset amount: ${offsetAmount} seconds`);
+  // LOOP THROUGH 1-4
+  for (var i = 1; i < 5; i++) {
 
-    sourceNode.buffer = audioBuffer;
-    sourceNode.loop = true;
-    sourceNode.playbackRate.value = rate;
+    // grab the div with class position
+    let positionDiv = document.getElementsByClassName(`position${i}`);
+    // console.log(positionDiv)
 
-    pannerNode.pan.value = pan;
+    function startLoop(audioBuffer, pan = 0, rate = 1) {
+      i = i + 1;
 
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 8);
+      // create audio nodes
+      let sourceNode = audioContext.createBufferSource();
+      let pannerNode = audioContext.createStereoPanner();
+      let gainNode = audioContext.createGain();
+      
+      let audioLength = 57.6;
+      let randomStartPosition = Math.random() * audioLength;
+      let offsetAmount = randomStartPosition;  
+      let percentageComplete = (offsetAmount / audioLength);
+      let pixelsCompleteOfDiv = Math.floor(percentageComplete * 336);
 
-    sourceNode.connect(pannerNode);
-    pannerNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    sourceNode.start(0, offsetAmount);  
+      if (playpauseButton.classList.contains('pause') && counter < 2) {
+        console.log(`Audio ${i -5} offset amount: ${offsetAmount} seconds`);
 
-  }
-
-  fetch('1.wav') 
-    .then(response => response.arrayBuffer()) 
-    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
-    .then(audioBuffer => {
-      startLoop1(audioBuffer, -1, 1);
-    })
-    .catch(error => console.error(error));
+        // change the positions divs to match the random start positions
+        positionDiv[0].style.left = `${pixelsCompleteOfDiv}px`;
+        console.log(pixelsCompleteOfDiv);
+      } else {return}
 
 
-// AUDIO 2
-  function startLoop2(audioBuffer, pan = 0, rate = 1) {
-    let sourceNode = audioContext.createBufferSource();
-    let pannerNode = audioContext.createStereoPanner();
-    let gainNode = audioContext.createGain();
-    
-    let randomStartPosition = Math.floor(Math.random() * 57.6);
-    let offsetAmount = randomStartPosition;  
-    console.log(`Audio 2 offset amount: ${offsetAmount} seconds`);
-
-    sourceNode.buffer = audioBuffer;
-    sourceNode.loop = true;
-    sourceNode.playbackRate.value = rate;
-
-    pannerNode.pan.value = pan;
-
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 8);
-
-    sourceNode.connect(pannerNode);
-    pannerNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    sourceNode.start(0, offsetAmount);  
-  }
-
-  fetch('2.wav') 
-    .then(response => response.arrayBuffer()) 
-    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
-    .then(audioBuffer => {
-      startLoop2(audioBuffer, 1, 1);
-    })
-    .catch(error => console.error(error));
+      // every second, change the position divs to match the currentTime
+      setInterval(updatePositionDiv, 1000);
+      function updatePositionDiv() {
+        let positionDivPixels = (((audioContext.currentTime + offsetAmount) / audioLength) * 336);
+        if (positionDivPixels > 336) {
+          positionDiv[0].style.left = `0px`;
+        } else {
+        positionDiv[0].style.left = `${positionDivPixels}px`;
+        }
+      }
 
 
+      sourceNode.buffer = audioBuffer;
+      sourceNode.loop = true;
+      sourceNode.playbackRate.value = rate;
+      pannerNode.pan.value = pan;
 
-// AUDIO 3
-  function startLoop3(audioBuffer, pan = 0, rate = 1) {
-    let sourceNode = audioContext.createBufferSource();
-    let pannerNode = audioContext.createStereoPanner();
-    let gainNode = audioContext.createGain();
-    
-    let randomStartPosition = Math.floor(Math.random() * 57.6);
-    let offsetAmount = randomStartPosition;  
-    console.log(`Audio 3 offset amount: ${offsetAmount} seconds`);
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      // fade audio in 
+      gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 8);
 
-    sourceNode.buffer = audioBuffer;
-    sourceNode.loop = true;
-    sourceNode.playbackRate.value = rate;
+      // connect nodes to one another
+      sourceNode.connect(pannerNode);
+      pannerNode.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      sourceNode.start(0, offsetAmount);  
 
-    pannerNode.pan.value = pan;
+    }
 
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(.4, audioContext.currentTime + 8);
-
-    sourceNode.connect(pannerNode);
-    pannerNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    sourceNode.start(0, offsetAmount);  
+    fetch(`${i}.wav`) 
+      .then(response => response.arrayBuffer()) 
+      .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
+      .then(audioBuffer => {
+        startLoop(audioBuffer, 0, 2);
+      })
+      .catch(error => console.error(error));
   }
   
-  fetch('3.wav') 
-    .then(response => response.arrayBuffer()) 
-    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
-    .then(audioBuffer => {
-      startLoop3(audioBuffer, 0, 1);
-    })
-    .catch(error => console.error(error));
+}
 
 
 
-// AUDIO 4
-  function startLoop4(audioBuffer, pan = 0, rate = 1) {
-    let sourceNode = audioContext.createBufferSource();
-    let pannerNode = audioContext.createStereoPanner();
-    let gainNode = audioContext.createGain();
-    
-    let randomStartPosition = Math.floor(Math.random() * 57.6);
-    let offsetAmount = randomStartPosition;  
-    console.log(`Audio 4 offset amount: ${offsetAmount} seconds`);
-
-    sourceNode.buffer = audioBuffer;
-    sourceNode.loop = true;
-    sourceNode.playbackRate.value = rate;
-
-    pannerNode.pan.value = pan;
-
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 8);
-
-    sourceNode.connect(pannerNode);
-    pannerNode.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    sourceNode.start(0, offsetAmount);  
+  // PAUSE MUSIC
+  function pauseIt() {
+    audioContext.suspend();
   }
-  fetch('4.wav') 
-    .then(response => response.arrayBuffer()) 
-    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer)) 
-    .then(audioBuffer => {
-      startLoop4(audioBuffer, -1, 1);
-    })
-    .catch(error => console.error(error));
-}
 
-
-// PAUSE MUSIC
-function pauseIt() {
-  audioContext.suspend();
-}
+  // STOP MUSIC
+  function stopIt() {
+    window.location.reload();
+  }

@@ -104,7 +104,7 @@ body {
 
     /* add a transition on the position1 div */
     .position1, .position2, .position3, .position4 {
-      transition: all 3s;
+      transition: all 1.5s;
     }
 
 .notes {
@@ -120,7 +120,7 @@ h1 {
   font-variation-settings: "wdth" 100;
   font-size: 5vw;
   line-height: 1;
-  margin: 25px 0 14px 0;
+  margin: 50px 0 14px 0;
   font-weight: 400;
 }
 
@@ -134,12 +134,12 @@ h2 {
 .buttonwrapper {
   display: flex;
   align-items: center;
-  /* padding-top: 40px; */
+  padding-top: 40px;
 }
 
 button {
-  padding: 20px 40px;
-  width: 33%;
+  /* padding: 20px 40px;
+  width: 33%; */
   margin: 20px 20px;
   font-size: 1.5rem;
   border: none;
@@ -148,25 +148,45 @@ button {
   display: block;
 }
 
-button:first-child {
-  background-color: #80c0f8;
+.playpause {
+  width: 74px;
+  height: 74px;
+  box-sizing: border-box;
+  border-radius: 0px;
+  border-style: solid;
+  border-width: 37px 0px 37px 74px;
+  border-color: transparent transparent transparent steelblue;
+  transition: all 100ms ease-in-out;
+  /* transform to make it 50% as big */
+  transform: scale(0.75);
 }
 
-button:nth-child(2) {
-  background-color: #e5926e
+.pause {
+  border-style: double;
+  border-width:0px 0px 0px 60px;
+  transform: scale(0.75);
 }
 
-button:nth-child(3) {
+.stop {
+  /* background-color: #e5926e; */
+  background-color: #dc2c54;
+  width: 74px;
+  height: 74px;
+  transform: scale(0.75);
+}
+
+
+/* button:nth-child(3) {
   background-color: #dc2c54
-}
+} */
 
-button:hover {
+/* button:hover {
   opacity: .8;
 }
 
 button:active {
   background-color: hsl(159, 35%, 35%);
-}
+} */
 
 @media screen and (max-width: 1300px) {
 
