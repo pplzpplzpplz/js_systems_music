@@ -31,7 +31,7 @@ function startIt() {
   for (var i = 1; i < 5; i++) {
 
     // grab the div with class position
-    let positionDiv = document.getElementsByClassName(`position${i}`);
+    let positionDiv = document.getElementsByClassName(`p${i}`);
     // console.log(positionDiv)
 
     function startLoop(audioBuffer, pan = 0, rate = 1) {
