@@ -108,11 +108,6 @@ body {
   background-color: #0478f9;
 }
 
-.progressbar .p1, .progressbar .p2, .progressbar .p3, .progressbar .p4 {
-  -webkit-transition: all 1.5s;
-  transition: all 1.5s;
-}
-
 h1 {
   font-family: 'Soulcraft', sans-serif;
   font-optical-sizing: auto;
