@@ -57,6 +57,10 @@ body {
   background-color: #a5be5e;
 }
 
+.currentTime {
+  padding-top: 1em;
+}
+
 // general sizing / alignment 
 .progressbar {
   width:336px;
@@ -135,29 +139,9 @@ button {
   display: block;
 }
 
-.playpause {
+.playstop {
   width: 200px;
   height: 74px;
-//   box-sizing: border-box;
-//   border-radius: 0px;
-//   border-style: solid;
-//   border-width: 37px 0px 37px 74px;
-//   border-color: transparent transparent transparent steelblue;
-//   transition: all 100ms ease-in-out;
-//   transform: scale(0.75);
-}
-
-// .pause {
-//   border-style: double;
-//   border-width:0px 0px 0px 60px;
-//   transform: scale(0.75);
-// }
-
-.stop {
-  background-color: #dc2c54;
-  width: 100px;
-  height: 74px;
-  // transform: scale(0.75);
 }
 
 

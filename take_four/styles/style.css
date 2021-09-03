@@ -72,6 +72,10 @@ body {
   background-color: #a5be5e;
 }
 
+.currentTime {
+  padding-top: 1em;
+}
+
 .progressbar {
   width: 336px;
   height: 60px;
@@ -150,14 +154,8 @@ button {
   display: block;
 }
 
-.playpause {
+.playstop {
   width: 200px;
-  height: 74px;
-}
-
-.stop {
-  background-color: #dc2c54;
-  width: 100px;
   height: 74px;
 }
 
