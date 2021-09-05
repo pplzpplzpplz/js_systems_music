@@ -5,28 +5,29 @@ const p1 = document.querySelector('.p1');
 const b1 = document.querySelector('.b1');
 let playCount;
 
-
-
-playStopButton.addEventListener('click', function() {
-  // play or stop track depending on state
-  if (this.dataset.playing === 'false') {
-      startIt();
-      console.log('playing');
-      this.dataset.playing = 'true';
-
-  } else if (this.dataset.playing === 'true') {
-      // STOP MUSIC
-      location.reload(); // cant get the playCount to reset, so using page reload here
-      stopIt();
-      console.log('stopped');
-      this.dataset.playing = 'false';
-  }
-}, false);
-
 // tone.js - new Buffer for audio file, to grab duration
 var buffer = new Tone.Buffer("1b.wav");
 // tone.js - new Player 
 const player = new Tone.Player(buffer).toDestination();
+
+
+
+playStopButton.addEventListener('click', function() {
+  // PLAY OR STOP track depending on state
+  if (this.dataset.playing === 'false') {
+    // START MUSIC
+    startIt();
+    console.log('playing');
+    this.dataset.playing = 'true';
+
+  } else if (this.dataset.playing === 'true') {
+    // STOP MUSIC
+    location.reload(); // cant get the playCount to reset, so using page reload here
+    stopIt();
+    console.log('stopped');
+    this.dataset.playing = 'false';
+  }
+}, false);
 
 
 function startIt() {
@@ -37,6 +38,7 @@ function startIt() {
     randomStartPosition = Math.random() * (buffer.duration);
     
     player.fadeIn = .1;
+    player.fadeOut = .1;
     player.loop = true;
     player.playbackRate = 1;
     player.start();
@@ -67,6 +69,7 @@ function startIt() {
       p1.style.left = `${((currentPosition / buffer.duration) * 100)}%`;
 
       debugDiv.innerHTML = `
+      <strong><u>DEBUG</u></strong> <br>
       randomStartPosition:  ${randomStartPosition.toFixed(1)}
       <br> 
       buffer.duration: ${buffer.duration} <br>
@@ -75,7 +78,7 @@ function startIt() {
       playCount: ${playCount}
       <br>
       `;
-    }), 1000;
+    });
   });
 }
 
