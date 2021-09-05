@@ -57,13 +57,13 @@ body {
   background-color: #a5be5e;
 }
 
-.currentTime {
+.debugDiv {
   padding-top: 1em;
 }
 
 // general sizing / alignment 
 .progressbar {
-  width:336px;
+  width:500px;
   height: 60px;
   display: flex;
   align-items: flex-start;
@@ -96,9 +96,9 @@ body {
   }
 
   /* add a transition on the position1 div */
-  .p1, .p2, .p3, .p4 {
-    // transition: all 1.5s;
-  }
+  // .p1, .p2, .p3, .p4 {
+  //  transition: all 1.5s;
+  // }
 }
 
 h1 {
