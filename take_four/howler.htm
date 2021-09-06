@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOWLER</title>
+</head>
+<body>
+
+  <button onclick="startIt();">
+    play
+  </button>
+
+  <div class="debug">
+
+  </div>
+
+  <!-- howler library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    const button = document.querySelector('button');
+    const debug = document.querySelector('.debug');
+
+
+    var sounds = new Howl({
+      src: ['1b.wav', '1b.wav'],
+      loop: true
+    });
+
+    function startIt() {
+      // Play returns a unique Sound ID that can be passed
+      // into any method on Howl to control that specific sound.
+      var id1 = sounds.play();
+      var id2 = sounds.play();
+
+      // control sounds indepently by id1 or id2
+      sounds.seek(3, id1);
+      sounds.seek(5.5, id2);
+
+      setInterval(function() {
+      debug.innerHTML = '<p>' + Math.floor(sounds.seek(id1)) + ' ' + Math.floor(sounds.seek(id2)) + '</p>';
+      }, 200);
+    }
+
+
+
+
+  </script>
+</body>
+</html>
