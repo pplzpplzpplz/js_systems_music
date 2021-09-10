@@ -124,11 +124,17 @@ body {
   background-color: #0478f9;
 }
 
+.progressbar .p1, .progressbar .p2, .progressbar .p3, .progressbar .p4 {
+  -webkit-transition: all .4s ease-out;
+  transition: all .4s ease-out;
+}
+
 .accordion_area:hover {
   height: 110px;
 }
 
 .accordion_area {
+  background-color: rgba(255, 255, 255, 0.15);
   height: 60px;
   overflow: hidden;
   -webkit-transition: height .5s;

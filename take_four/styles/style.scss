@@ -105,15 +105,16 @@ body {
   }
 
   /* add a transition on the position1 div */
-  // .p1, .p2, .p3, .p4 {
-  //  transition: all 1.5s;
-  // }
+  .p1, .p2, .p3, .p4 {
+   transition: all .4s ease-out;
+  }
 }
 
 .accordion_area:hover {
   height: 110px;
 }
 .accordion_area {
+  background-color: rgba($color: #ffffff, $alpha: .15);
   height: 60px;
   overflow:hidden;
   transition: height .5s;

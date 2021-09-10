@@ -8,10 +8,10 @@ const p4 = document.querySelector('.p4');
 
 
 // tone.js - new Buffer for audio file, to grab duration
-const buffer1 = new Tone.Buffer("1b.wav");
-const buffer2 = new Tone.Buffer("1b.wav");
-const buffer3 = new Tone.Buffer("1b.wav");
-const buffer4 = new Tone.Buffer("1b.wav");
+const buffer1 = new Tone.Buffer("1bb.wav");
+const buffer2 = new Tone.Buffer("2bb.wav");
+const buffer3 = new Tone.Buffer("3bb.wav");
+const buffer4 = new Tone.Buffer("4bb.wav");
 // tone.js - new Player 
 const player1 = new Tone.Player(buffer1).toDestination();
 const player2 = new Tone.Player(buffer2).toDestination();
@@ -40,11 +40,12 @@ playStopButton.addEventListener('click', function() {
 
 function startIt() {
 
+
   Tone.loaded().then(() => {
 
     // AUDIO 1 --------------------------------
     // pick a random start time within the duration of the audio file
-    randomStartPosition1 = Math.random() * (buffer1.duration);
+    randomStartPosition1 = Math.random() * buffer1.duration;
     
     player1.fadeIn = .1;
     player1.fadeOut = .1;
@@ -56,7 +57,7 @@ function startIt() {
     
 
     // seek to the random start position
-    player1.seek(randomStartPosition1);
+    player1.seek(randomStartPosition1);    
 
     setInterval(function() {
       // find the current position of the track 
@@ -65,12 +66,17 @@ function startIt() {
       // move the line with the audio playback
       p1.style.left = `${((currentPosition1 / buffer1.duration) * 100)}%`;
 
+      // turn off transition so it jumps right back to 0 immediately
+      if (currentPosition1 >= buffer1.duration -.01) {
+        p1.style.transition = 'none';
+      }
+
       debugDiv.innerHTML = `
       <strong><u>DEBUG</u></strong> <br>
       randomStartPosition1:  ${randomStartPosition1.toFixed(1)}
       <br> 
       buffer1.duration: ${buffer1.duration} <br>
-      currentPosition1: ${Math.floor(currentPosition1)}
+      currentPosition1: ${currentPosition1.toFixed(1)}
       `;
     });
     // AUDIO 1 ----------------END----------------
@@ -79,7 +85,7 @@ function startIt() {
 
     // AUDIO 2 --------------------------------
     // pick a random start time within the duration of the audio file
-    randomStartPosition2 = Math.random() * (buffer2.duration);
+    randomStartPosition2 = Math.random() * buffer2.duration;
     
     player2.fadeIn = .1;
     player2.fadeOut = .1;
@@ -98,13 +104,17 @@ function startIt() {
 
       // move the line with the audio playback
       p2.style.left = `${((currentPosition2 / buffer2.duration) * 100)}%`;
+      // turn off transition so it jumps right back to 0 immediately
+      if (currentPosition2 >= buffer2.duration -.01) {
+        p2.style.transition = 'none';
+      }
     });
     // AUDIO 2 ----------------END----------------
 
 
     // AUDIO 3 --------------------------------
     // pick a random start time within the duration of the audio file
-    randomStartPosition3 = Math.random() * (buffer3.duration);
+    randomStartPosition3 = Math.random() * buffer3.duration;
     
     player3.fadeIn = .1;
     player3.fadeOut = .1;
@@ -123,13 +133,17 @@ function startIt() {
 
       // move the line with the audio playback
       p3.style.left = `${((currentPosition3 / buffer3.duration) * 100)}%`;
+      // turn off transition so it jumps right back to 0 immediately
+      if (currentPosition3 >= buffer3.duration -.01) {
+        p3.style.transition = 'none';
+      }
     });
     // AUDIO 3 ----------------END----------------
 
 
     // AUDIO 4 --------------------------------
     // pick a random start time within the duration of the audio file
-    randomStartPosition4 = Math.random() * (buffer4.duration);
+    randomStartPosition4 = Math.random() * buffer4.duration;
     
     player4.fadeIn = .1;
     player4.fadeOut = .1;
@@ -148,6 +162,10 @@ function startIt() {
 
       // move the line with the audio playback
       p4.style.left = `${((currentPosition4 / buffer4.duration) * 100)}%`;
+      // turn off transition so it jumps right back to 0 immediately
+      if (currentPosition4 >= buffer4.duration -.01) {
+        p4.style.transition = 'none';
+      }
     });
     // AUDIO 4 ----------------END----------------
 
