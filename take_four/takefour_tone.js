@@ -5,6 +5,7 @@ const p1 = document.querySelector('.p1');
 const p2 = document.querySelector('.p2');
 const p3 = document.querySelector('.p3');
 const p4 = document.querySelector('.p4');
+const loadprogressDiv = document.querySelector('.loadprogress');
 
 
 // tone.js - new Buffer for audio file, to grab duration
@@ -33,6 +34,12 @@ const player4 = new Tone.Player(buffer4).toDestination();
 
 
 
+
+
+
+
+
+
 playStopButton.addEventListener('click', function() {
   // PLAY OR STOP track depending on state
   if (this.dataset.playing === 'false') {
@@ -52,9 +59,22 @@ playStopButton.addEventListener('click', function() {
 
 
 function startIt() {
+  loadprogressDiv.innerHTML = 'loading...';
+
+  setInterval(function() {
+    if (loadprogressDiv.innerHTML === 'loading...') {
+      loadprogressDiv.innerHTML = 'loading.';
+    } else if (loadprogressDiv.innerHTML === 'loading.') {
+      loadprogressDiv.innerHTML = 'loading..';
+    } else if (loadprogressDiv.innerHTML === 'loading..') {
+      loadprogressDiv.innerHTML = 'loading...';
+    }
+  }, 500);
 
 
   Tone.loaded().then(() => {
+    loadprogressDiv.innerHTML = 'loaded!';
+    setTimeout(() => {loadprogressDiv.innerHTML = ''}, 1000);
 
     // AUDIO 1 --------------------------------
     // pick a random start time within the duration of the audio file
