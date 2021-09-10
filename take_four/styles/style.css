@@ -124,6 +124,19 @@ body {
   background-color: #0478f9;
 }
 
+.accordion_area:hover {
+  height: 110px;
+}
+
+.accordion_area {
+  height: 60px;
+  overflow: hidden;
+  -webkit-transition: height .5s;
+  transition: height .5s;
+  -webkit-transition-timing-function: ease-out;
+          transition-timing-function: ease-out;
+}
+
 h1 {
   font-family: 'Soulcraft', sans-serif;
   font-optical-sizing: auto;

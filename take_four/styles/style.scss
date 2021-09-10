@@ -110,6 +110,17 @@ body {
   // }
 }
 
+.accordion_area:hover {
+  height: 110px;
+}
+.accordion_area {
+  height: 60px;
+  overflow:hidden;
+  transition: height .5s;
+  transition-timing-function: ease-out;
+}
+
+
 h1 {
   font-family: 'Soulcraft', sans-serif;
   font-optical-sizing: auto;
