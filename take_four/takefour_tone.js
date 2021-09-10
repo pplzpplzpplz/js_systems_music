@@ -12,11 +12,24 @@ const buffer1 = new Tone.Buffer("1bb.wav");
 const buffer2 = new Tone.Buffer("2bb.wav");
 const buffer3 = new Tone.Buffer("3bb.wav");
 const buffer4 = new Tone.Buffer("4bb.wav");
-// tone.js - new Player 
-const player1 = new Tone.Player(buffer1).toDestination();
+// tone.js
+const feedbackDelay = new Tone.FeedbackDelay(.4, 0.6).toDestination();
+
+// players
+const player1 = new Tone.Player(buffer1).connect(feedbackDelay).toDestination();
 const player2 = new Tone.Player(buffer2).toDestination();
 const player3 = new Tone.Player(buffer3).toDestination();
 const player4 = new Tone.Player(buffer4).toDestination();
+
+
+
+
+// TO DO - TO EXPLORE 
+// reverse
+// playbackRate
+// feedbackdelay = p cool
+// autoFilter - meh
+
 
 
 
