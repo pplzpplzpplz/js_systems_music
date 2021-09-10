@@ -3,15 +3,20 @@ const playStopButton = document.querySelector('.playstop');
 const debugDiv = document.querySelector('.debugDiv');
 const p1 = document.querySelector('.p1');
 const p2 = document.querySelector('.p2');
-let playCount1;
-let playCount2;
+const p3 = document.querySelector('.p3');
+const p4 = document.querySelector('.p4');
+
 
 // tone.js - new Buffer for audio file, to grab duration
-var buffer1 = new Tone.Buffer("1c.wav");
-var buffer2 = new Tone.Buffer("1b.wav");
+const buffer1 = new Tone.Buffer("1b.wav");
+const buffer2 = new Tone.Buffer("1b.wav");
+const buffer3 = new Tone.Buffer("1b.wav");
+const buffer4 = new Tone.Buffer("1b.wav");
 // tone.js - new Player 
 const player1 = new Tone.Player(buffer1).toDestination();
 const player2 = new Tone.Player(buffer2).toDestination();
+const player3 = new Tone.Player(buffer3).toDestination();
+const player4 = new Tone.Player(buffer4).toDestination();
 
 
 
@@ -45,6 +50,7 @@ function startIt() {
     player1.fadeOut = .1;
     player1.loop = true;
     player1.playbackRate = 1;
+    // player1.reverse = true;
     player1.start();
     Tone.Transport.start();
     
@@ -52,23 +58,9 @@ function startIt() {
     // seek to the random start position
     player1.seek(randomStartPosition1);
 
-    let currentPosition1 = Tone.Transport.seconds + randomStartPosition1;
-    playCount1 = 1;
-
-
     setInterval(function() {
-      // song is less than one duration
-      if (currentPosition1 < buffer1.duration) {
-        currentPosition1 = Tone.Transport.seconds + randomStartPosition1;
-      } 
-
-      // song is more than one duration
-      else if (currentPosition1 >= buffer1.duration) {
-        playCount1 = playCount1 + 1;
-        randomStartPosition1 = 0;
-        currentPosition1 = 0;
-        Tone.Transport.seconds = 0;
-      }
+      // find the current position of the track 
+      let currentPosition1 = (randomStartPosition1 + Tone.Transport.seconds) % buffer1.duration;
 
       // move the line with the audio playback
       p1.style.left = `${((currentPosition1 / buffer1.duration) * 100)}%`;
@@ -79,62 +71,85 @@ function startIt() {
       <br> 
       buffer1.duration: ${buffer1.duration} <br>
       currentPosition1: ${Math.floor(currentPosition1)}
-      <br>
-      playCount1: ${playCount1}
-      <br>
       `;
     });
     // AUDIO 1 ----------------END----------------
 
 
 
-    // // AUDIO 2 --------------------------------
-    // // pick a random start time within the duration of the audio file
-    // randomStartPosition2 = Math.random() * (buffer2.duration);
+    // AUDIO 2 --------------------------------
+    // pick a random start time within the duration of the audio file
+    randomStartPosition2 = Math.random() * (buffer2.duration);
     
-    // player2.fadeIn = .1;
-    // player2.fadeOut = .1;
-    // player2.loop = true;
-    // player2.playbackRate = 1;
-    // player2.start();
-    // Tone.Transport.start();
+    player2.fadeIn = .1;
+    player2.fadeOut = .1;
+    player2.loop = true;
+    player2.playbackRate = 1;
+    // player2.reverse = true;
+    player2.start();
 
-    // // seek to the random start position
-    // player2.seek(randomStartPosition2);
-
-    // let currentPosition2 = Tone.Transport.seconds + randomStartPosition2;
-    // playCount2 = 1;
+    // seek to the random start position
+    player2.seek(randomStartPosition2);
 
 
-    // setInterval(function() {
-    //   // song is less than one duration
-    //   if (currentPosition2 < buffer2.duration) {
-    //     currentPosition2 = Tone.Transport.seconds + randomStartPosition2;
-    //   } 
+    setInterval(function() {
+      // find the current position of the track 
+      let currentPosition2 = (randomStartPosition2 + Tone.Transport.seconds) % buffer2.duration;
 
-    //   // song is more than one duration
-    //   else if (currentPosition2 >= buffer2.duration) {
-    //     playCount2 = playCount2 + 1;
-    //     randomStartPosition2 = 0;
-    //     currentPosition2 = 0;
-    //     // Tone.Transport.seconds = 0;
-    //   }
+      // move the line with the audio playback
+      p2.style.left = `${((currentPosition2 / buffer2.duration) * 100)}%`;
+    });
+    // AUDIO 2 ----------------END----------------
 
-    //   // move the line with the audio playback
-    //   p2.style.left = `${((currentPosition2 / buffer2.duration) * 100)}%`;
 
-    //   // debugDiv.innerHTML = `
-    //   // <strong><u>DEBUG</u></strong> <br>
-    //   // randomStartPosition2:  ${randomStartPosition2.toFixed(1)}
-    //   // <br> 
-    //   // buffer2.duration: ${buffer2.duration} <br>
-    //   // currentPosition2: ${Math.floor(currentPosition2)}
-    //   // <br>
-    //   // playCount2: ${playCount2}
-    //   // <br>
-    //   // `;
-    // });
-    // // AUDIO 2 ----------------END----------------
+    // AUDIO 3 --------------------------------
+    // pick a random start time within the duration of the audio file
+    randomStartPosition3 = Math.random() * (buffer3.duration);
+    
+    player3.fadeIn = .1;
+    player3.fadeOut = .1;
+    player3.loop = true;
+    player3.playbackRate = 1;
+    // player3.reverse = true;
+    player3.start();
+
+    // seek to the random start position
+    player3.seek(randomStartPosition3);
+
+
+    setInterval(function() {
+      // find the current position of the track 
+      let currentPosition3 = (randomStartPosition3 + Tone.Transport.seconds) % buffer3.duration;
+
+      // move the line with the audio playback
+      p3.style.left = `${((currentPosition3 / buffer3.duration) * 100)}%`;
+    });
+    // AUDIO 3 ----------------END----------------
+
+
+    // AUDIO 4 --------------------------------
+    // pick a random start time within the duration of the audio file
+    randomStartPosition4 = Math.random() * (buffer4.duration);
+    
+    player4.fadeIn = .1;
+    player4.fadeOut = .1;
+    player4.loop = true;
+    player4.playbackRate = 1;
+    // player4.reverse = true;
+    player4.start();
+
+    // seek to the random start position
+    player4.seek(randomStartPosition4);
+
+
+    setInterval(function() {
+      // find the current position of the track 
+      let currentPosition4 = (randomStartPosition4 + Tone.Transport.seconds) % buffer4.duration;
+
+      // move the line with the audio playback
+      p4.style.left = `${((currentPosition4 / buffer4.duration) * 100)}%`;
+    });
+    // AUDIO 4 ----------------END----------------
 
 
 
@@ -143,7 +158,6 @@ function startIt() {
 }
 
 function stopIt() {
-  playCount1 = 0;
   player1.stop();
   Tone.Transport.stop();
   Tone.Transport.seconds = 0;
