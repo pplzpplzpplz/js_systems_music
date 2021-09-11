@@ -1,3 +1,5 @@
+// const { Chebyshev } = require("tone");
+
 let audioContext = new AudioContext();
 const playStopButton = document.querySelector('.playstop');
 const debugDiv = document.querySelector('.debugDiv');
@@ -9,18 +11,39 @@ const loadprogressDiv = document.querySelector('.loadprogress');
 
 
 // tone.js - new Buffer for audio file, to grab duration
-const buffer1 = new Tone.Buffer("1bb.wav");
-const buffer2 = new Tone.Buffer("2bb.wav");
-const buffer3 = new Tone.Buffer("3bb.wav");
-const buffer4 = new Tone.Buffer("4bb.wav");
+const buffer1 = new Tone.Buffer("op1.wav");
+const buffer2 = new Tone.Buffer("op2.wav");
+const buffer3 = new Tone.Buffer("op3.wav");
+const buffer4 = new Tone.Buffer("1c.wav");
 // tone.js
-const feedbackDelay = new Tone.FeedbackDelay(.4, 0.6).toDestination();
+const feedbackDelay = new Tone.FeedbackDelay(10, 0.6).toDestination();
+const pingPong = new Tone.PingPongDelay(.14, 0.1).toDestination();
+const freeverb = new Tone.Freeverb().toDestination();
+const cheby = new Tone.Chebyshev(100).toDestination();
+const pitchShift = new Tone.PitchShift(24).toDestination();
+const autoFilter = new Tone.AutoFilter("2n").toDestination().start();
+
+pitchShift.wet.value = .25;
+// pitchShift.pitch.value = -24;
+
+freeverb.dampening = 250;
+
+freeverb.wet.value = 0;
+
+// setInterval(() => {
+//   freeverb.wet.value = Math.random() * 1;
+// }, 200);
+
+freeverb.wet.linearRampToValueAtTime(1, 3);
+
+
 
 // players
-const player1 = new Tone.Player(buffer1).connect(feedbackDelay).toDestination();
-const player2 = new Tone.Player(buffer2).toDestination();
-const player3 = new Tone.Player(buffer3).toDestination();
+const player1 = new Tone.Player(buffer1).connect(cheby).connect(feedbackDelay).connect(pingPong).connect(freeverb).connect(pitchShift).connect(autoFilter).toDestination();
+const player2 = new Tone.Player(buffer2).connect(cheby).connect(feedbackDelay).connect(pingPong).connect(freeverb).connect(pitchShift).connect(autoFilter).toDestination();
+const player3 = new Tone.Player(buffer3).connect(cheby).connect(feedbackDelay).connect(pingPong).connect(freeverb).connect(pitchShift).connect(autoFilter).toDestination();
 const player4 = new Tone.Player(buffer4).toDestination();
+
 
 
 
@@ -61,7 +84,8 @@ playStopButton.addEventListener('click', function() {
 function startIt() {
   loadprogressDiv.innerHTML = 'loading...';
 
-  setInterval(function() {
+  function loadingState() {
+    setInterval(function() {
     if (loadprogressDiv.innerHTML === 'loading...') {
       loadprogressDiv.innerHTML = 'loading.';
     } else if (loadprogressDiv.innerHTML === 'loading.') {
@@ -70,6 +94,9 @@ function startIt() {
       loadprogressDiv.innerHTML = 'loading...';
     }
   }, 500);
+}
+
+loadingState();
 
 
   Tone.loaded().then(() => {
@@ -83,8 +110,8 @@ function startIt() {
     player1.fadeIn = .1;
     player1.fadeOut = .1;
     player1.loop = true;
-    player1.playbackRate = 1;
-    // player1.reverse = true;
+    player1.playbackRate = .75;
+    player1.reverse = true;
     player1.start();
     Tone.Transport.start();
     
@@ -110,6 +137,8 @@ function startIt() {
       <br> 
       buffer1.duration: ${buffer1.duration} <br>
       currentPosition1: ${currentPosition1.toFixed(1)}
+      reverb: ${freeverb.wet.value.toFixed(2)} <br>
+      cheby: ${cheby.order.value}
       `;
     });
     // AUDIO 1 ----------------END----------------
@@ -123,8 +152,8 @@ function startIt() {
     player2.fadeIn = .1;
     player2.fadeOut = .1;
     player2.loop = true;
-    player2.playbackRate = 1;
-    // player2.reverse = true;
+    player2.playbackRate = .75;
+    player2.reverse = true;
     player2.start();
 
     // seek to the random start position
@@ -152,7 +181,7 @@ function startIt() {
     player3.fadeIn = .1;
     player3.fadeOut = .1;
     player3.loop = true;
-    player3.playbackRate = 1;
+    player3.playbackRate = .75;
     // player3.reverse = true;
     player3.start();
 
@@ -181,8 +210,9 @@ function startIt() {
     player4.fadeIn = .1;
     player4.fadeOut = .1;
     player4.loop = true;
-    player4.playbackRate = 1;
-    // player4.reverse = true;
+    player4.playbackRate = .75;
+    player4.reverse = true;
+    player4.volume.value = -10;
     player4.start();
 
     // seek to the random start position
