@@ -15,7 +15,8 @@ const buffer1 = new Tone.Buffer("op1.wav");
 const buffer2 = new Tone.Buffer("op2.wav");
 const buffer3 = new Tone.Buffer("op3.wav");
 const buffer4 = new Tone.Buffer("1c.wav");
-// tone.js
+
+// tone.js effects
 const feedbackDelay = new Tone.FeedbackDelay(10, 0.6).toDestination();
 const pingPong = new Tone.PingPongDelay(.14, 0.1).toDestination();
 const freeverb = new Tone.Freeverb().toDestination();
@@ -28,13 +29,13 @@ pitchShift.wet.value = .25;
 
 freeverb.dampening = 250;
 
-freeverb.wet.value = 0;
+freeverb.wet.value = 1;
 
 // setInterval(() => {
 //   freeverb.wet.value = Math.random() * 1;
 // }, 200);
 
-freeverb.wet.linearRampToValueAtTime(1, 3);
+freeverb.roomSize.linearRampToValueAtTime(.5, 4);
 
 
 
@@ -138,7 +139,7 @@ loadingState();
       buffer1.duration: ${buffer1.duration} <br>
       currentPosition1: ${currentPosition1.toFixed(1)}
       reverb: ${freeverb.wet.value.toFixed(2)} <br>
-      cheby: ${cheby.order.value}
+      cheby: ${cheby.order.value} <br>
       `;
     });
     // AUDIO 1 ----------------END----------------
