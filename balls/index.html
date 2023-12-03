@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.js"></script>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    let balls = [];
+    let env;
+    let osc;
+
+    function setup() {
+      createCanvas(600, 600);
+
+      env = new p5.Env();
+      env.setADSR(0.5, 0.8, 0.1, 0.5);
+      env.setRange(1, 0);
+
+      osc = new p5.Oscillator();
+      osc.setType('sine');
+      osc.freq(440);
+      osc.amp(env);
+      osc.start();
+    }
+
+    function draw() {
+      background(255);
+      const sideLength = 500;
+
+      // Draw Octagon
+      drawOctagon(width / 2, height / 2, sideLength);
+
+      // Draw and update balls
+      for (let ball of balls) {
+        ball.update();
+        ball.display();
+        ball.checkCollision();
+        if (ball.isOutOfBounds()) {
+          balls.splice(balls.indexOf(ball), 1);
+        }
+      }
+    }
+
+    function mouseClicked() {
+      for (let i = 0; i < 3; i++) {
+        balls.push(new BouncingBall(width / 2, height / 2, random(10, 20)));
+      }
+    }
+
+    function drawOctagon(x, y, sideLength) {
+      beginShape();
+      for (let i = 0; i < 8; i++) {
+        const angle = i * (PI / 4) - PI / 8;
+        const px = x + cos(angle) * sideLength / 2;
+        const py = y + sin(angle) * sideLength / 2;
+        vertex(px, py);
+      }
+      endShape(CLOSE);
+    }
+
+    class BouncingBall {
+      constructor(x, y, radius) {
+        this.position = createVector(x, y);
+        this.velocity = createVector(random(-1, 1), random(-1, 1)).mult(5);
+        this.radius = radius;
+      }
+
+      update() {
+        this.position.add(this.velocity);
+      }
+
+      display() {
+        if (pointInsideOctagon(this.position.x, this.position.y)) {
+          ellipse(this.position.x, this.position.y, this.radius * 2);
+        }
+      }
+
+      checkCollision() {
+        if (this.position.y > height / 2 - 0.5 * 500 && this.position.y < height / 2 + 0.5 * 500) {
+          for (let i = 0; i < 8; i++) {
+            const angle = i * (PI / 4) - PI / 8;
+            const px = width / 2 + cos(angle) * (500 / 2);
+            const py = height / 2 + sin(angle) * (500 / 2);
+            const nextAngle = (i + 1) * (PI / 4) - PI / 8;
+            const nextPx = width / 2 + cos(nextAngle) * (500 / 2);
+            const nextPy = height / 2 + sin(nextAngle) * (500 / 2);
+
+            const side1 = createVector(px, py);
+            const side2 = createVector(nextPx, nextPy);
+            const toPoint = createVector(this.position.x, this.position.y);
+
+            const collision = this.collideWithLine(toPoint, side1, side2);
+            if (collision) {
+              // Play a random note from the E minor 7th chord
+              playRandomNote();
+
+              // Calculate normal vector of the colliding side
+              const normal = createVector(nextPy - py, px - nextPx).normalize();
+
+              // Calculate and set the new velocity using reflection formula
+              this.velocity.reflect(normal).mult(0.8); // Adjust the reflection factor
+              break;
+            }
+          }
+        }
+      }
+
+      collideWithLine(point, lineStart, lineEnd) {
+        const d1 = dist(point.x, point.y, lineStart.x, lineStart.y);
+        const d2 = dist(point.x, point.y, lineEnd.x, lineEnd.y);
+        const lineLength = dist(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
+        return d1 + d2 >= lineLength - 0.1 && d1 + d2 <= lineLength + 0.1;
+      }
+
+      isOutOfBounds() {
+        return this.position.y > height / 2 + 0.5 * 500 && this.velocity.y > 0;
+      }
+    }
+
+    function pointInsideOctagon(x, y) {
+      const octagonX = width / 2;
+      const octagonY = height / 2;
+
+      for (let i = 0; i < 8; i++) {
+        const angle = i * (PI / 4) - PI / 8;
+        const px = octagonX + cos(angle) * (500 / 2);
+        const py = octagonY + sin(angle) * (500 / 2);
+        const nextAngle = (i + 1) * (PI / 4) - PI / 8;
+        const nextPx = octagonX + cos(nextAngle) * (500 / 2);
+        const nextPy = octagonY + sin(nextAngle) * (500 / 2);
+
+        const side1 = createVector(px, py);
+        const side2 = createVector(nextPx, nextPy);
+        const toPoint = createVector(x - px, y - py);
+
+        if (toPoint.cross(side1) * toPoint.cross(side2) < 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function playRandomNote() {
+      const randomNote = random(['E4', 'G4', 'B4', 'D5']);
+      osc.freq(midiToFreq(noteToMidi(randomNote)));
+      env.triggerAttack();
+      setTimeout(() => {
+        env.triggerRelease();
+      }, 200);
+    }
+
+    function noteToMidi(note) {
+      const noteValues = { C: 0, 'C#': 1, D: 2, 'D#': 3, E: 4, F: 5, 'F#': 6, G: 7, 'G#': 8, A: 9, 'A#': 10, B: 11 };
+      const pitch = note.substring(0, note.length - 1);
+      const octave = parseInt(note.slice(-1));
+      return noteValues[pitch] + (octave + 1) * 12;
+    }
+  </script>
+</body>
+
+</html>
